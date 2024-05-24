@@ -11,8 +11,12 @@ import Halogen as H
 import Halogen.HTML as HH
 import Type.Proxy (Proxy(..))
 
-type Slots = ( askName :: forall query. H.Slot query Void Int )
+type Slots = 
+  ( askName :: forall query. H.Slot query Void Int 
+  , footer :: forall query. H.Slot query Void Int 
+  )
 _askName = Proxy :: Proxy "askName"
+_footer = Proxy :: Proxy "footer"
 
 component :: forall query input output m. H.Component query input output m
 component =
@@ -25,5 +29,5 @@ component =
   render :: forall state action. state -> H.ComponentHTML action Slots m
   render _ = HH.div_ 
     [ HH.slot_ _askName 0 AskName.component unit
-    , Footer.component
+    , HH.slot_ _footer 0 Footer.component { name: "mateusz"}
     ]
